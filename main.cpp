@@ -9,6 +9,8 @@
 #define PORT_F_MASK 0xE000
 #define GAS_DETECTOR_MASK 0x8000
 #define OVER_TEMP_DETECTOR_MASK 0x2000
+#define PORT_E_BUTTONS_MASK  0xA00
+#define PORT_F_BUTTONS_MASK 0x6000
 
 int main()
 {
@@ -89,17 +91,40 @@ int main()
     printf("Estoy usando PORTIN_CODE.\n");
 
     /**
-    * @note Uso de la clase PortIn:
+    * @note Para el uso de la clase PortIn:
     * gasDetector D2 = PF_15
     * overTempDetector D3 = PE_13
     * aButton D4 = PF_14
+    * dButton D7 = PF_13
     * bButton D5 = PE_11
     * cButton D6 = PE_9
-    * dButton D7 = PF_13
     */
 
     PortIn portE(PortE, PORT_E_MASK);
     PortIn portF(PortF, PORT_F_MASK);
+
+    portE.mode(PullDown);
+    portF.mode(PullDown);
+
+    DigitalOut alarmLed(LED1);
+
+    alarmLed = OFF;
+
+    bool alarmState = OFF;
+
+    while (true) {
+
+        if ( (portF.read() & GAS_DETECTOR_MASK) != 0 || (portE.read() & OVER_TEMP_DETECTOR_MASK) != 0 ) {
+            alarmState = ON;
+        }
+
+        alarmLed = alarmState;
+
+        
+        if ( (portE.read() & PORT_E_BUTTONS_MASK) != 0 || (portF.read() & PORT_F_BUTTONS_MASK) != 0 ) {
+            alarmState = OFF;
+        }
+    }
 
     // Puede verse que en este caso, donde los detectores y los botones estan "mezclados" en diferentes puertos, es mas claro el uso de BusIn, ya que resulta un codigo mas facil de entender y por ende, de mantener.
     // Para poder aprovechar mejor la clase PortIn, deberiamos reubicar los detectores y los botones para que esten en los mismos puertos.
