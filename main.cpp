@@ -128,6 +128,9 @@ int main()
 
     // Puede verse que en este caso, donde los detectores y los botones estan "mezclados" en diferentes puertos, es mas claro el uso de BusIn, ya que resulta un codigo mas facil de entender y por ende, de mantener.
     // Para poder aprovechar mejor la clase PortIn, deberiamos reubicar los detectores y los botones para que esten en los mismos puertos.
+    // Como los detectores y los botones no estan en el mismo puerto se pueden notar las siguientes desventajas:
+    //  - Nombres de los objetos no representativos (portE y portF)
+    //  - Uso de mascaras para poder discriminar entre los detectores y los botones (Tanto en el port F como en el port E no hay solamente botones o detectores, estan mezclados)
 
 #endif
 }
