@@ -1,10 +1,11 @@
 #include "mbed.h"
 #include "arm_book_lib.h"
 
-//#define ORIGINAL_CODE 1
-#define BUSIN_CODE 1
-//#define PORTIN_CODE 1
+//#define ORIGINAL_CODE
+//#define BUSIN_CODE
+#define PORTIN_CODE
 
+//!< @note: Tuve que crear estas mascaras para usar la clase PortIn
 #define PORT_E_MASK 0x2A00
 #define PORT_F_MASK 0xE000
 #define GAS_DETECTOR_MASK 0x8000
